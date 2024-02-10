@@ -16,7 +16,25 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () =>
           import('../welcome/welcome.module').then((m) => m.WelcomeModule),
-        data: { availableOffline: true },
+        data: {},
+      },
+      {
+        path: 'about',
+        loadChildren: () =>
+          import('../about/about.module').then((m) => m.AboutModule),
+        data: {},
+      },
+      {
+        path: 'contact',
+        loadChildren: () =>
+          import('../contact/contact.module').then((m) => m.ContactModule),
+        data: {},
+      },
+      {
+        path: 'gallery',
+        loadChildren: () =>
+          import('../gallery/gallery.module').then((m) => m.GalleryModule),
+        data: {},
       },
     ],
   },

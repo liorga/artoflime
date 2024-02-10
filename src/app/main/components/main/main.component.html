@@ -1,1 +1,14 @@
-<router-outlet #o="outlet"></router-outlet>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened>
+    <mat-icon>list</mat-icon>
+    <mat-nav-list color="primary">
+      <a mat-list-item routerLink="/home">Home</a>
+      <a mat-list-item routerLink="/gallery">Gallery</a>
+      <a mat-list-item routerLink="/about">About</a>
+      <a mat-list-item routerLink="/contact">Contact Us</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
