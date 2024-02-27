@@ -1,1 +1,14 @@
-<h1>Contact</h1>
+<h1>Contact Us</h1>
+
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  <label for="name">Name:</label>
+  <input type="text" formControlName="name" id="name" />
+
+  <label for="email">Email:</label>
+  <input type="email" formControlName="email" id="email" />
+
+  <label for="message">Message:</label>
+  <textarea formControlName="message" id="message"></textarea>
+
+  <button type="submit" [disabled]="!contactForm.valid">Send</button>
+</form>

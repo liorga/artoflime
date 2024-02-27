@@ -1,5 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
@@ -7,11 +13,16 @@ import { MatSidenav } from '@angular/material/sidenav';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isExpanded = true;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngAfterViewInit(): void {
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
       .subscribe((result) => {
@@ -22,13 +33,16 @@ export class MainComponent implements OnInit {
           this.sidenav.mode = 'side';
           this.sidenav.open();
         }
+        this.cdr.detectChanges(); // Manually trigger change detection
       });
   }
+
   ngOnInit(): void {}
 
   toggleSidenav() {
     this.isExpanded = !this.isExpanded;
   }
+
   closeSidenav() {
     if (this.sidenav.mode === 'over') {
       this.sidenav.close();

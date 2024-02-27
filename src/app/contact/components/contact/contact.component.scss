@@ -1,0 +1,37 @@
+// contact.component.scss
+
+// Example styles - customize as needed
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
+
+  label {
+    margin-top: 10px;
+  }
+
+  input,
+  textarea {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: grey;
+    }
+  }
+}
