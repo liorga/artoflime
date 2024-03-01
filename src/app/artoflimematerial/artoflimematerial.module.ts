@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_MODULES } from './index';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MAT_MODULES, SHARED_MODULES } from './index';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, MAT_MODULES, ReactiveFormsModule],
-  exports: [MAT_MODULES, ReactiveFormsModule],
+  imports: [CommonModule, MAT_MODULES, SHARED_MODULES],
+  exports: [MAT_MODULES, SHARED_MODULES],
 })
 export class ArtoflimematerialModule {}

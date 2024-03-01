@@ -32,6 +32,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 /**
  * @const MAT_MODULES List of all the modules for a shorter syntax imports.
  * Add new modules here if needed.
@@ -73,3 +75,5 @@ export const MAT_MODULES = [
   MatBadgeModule,
   ScrollingModule,
 ];
+
+export const SHARED_MODULES = [HttpClientModule, ReactiveFormsModule];
