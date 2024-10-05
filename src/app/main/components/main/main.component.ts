@@ -15,8 +15,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  isExpanded = true;
-  isSmallScreen = false; // Add this to track small screen
+  isExpanded = false;
+  isSmallScreen = false;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -27,21 +27,24 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
       .subscribe((result) => {
-        this.isSmallScreen = result.matches; // Update based on screen size
-
+        this.isSmallScreen = result.matches;
         this.cdr.detectChanges(); // Manually trigger change detection
       });
   }
 
-  ngOnInit(): void {}
-
   toggleSidenav() {
     this.isExpanded = !this.isExpanded;
-  }
-
-  closeSidenav() {
-    if (this.sidenav.mode === 'over') {
+    if (this.isExpanded) {
+      this.sidenav.open();
+    } else {
       this.sidenav.close();
     }
   }
+
+  closeSidenav() {
+    this.sidenav.close();
+    this.isExpanded = false;
+  }
+
+  ngOnInit(): void {}
 }

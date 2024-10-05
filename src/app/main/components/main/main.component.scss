@@ -15,12 +15,16 @@
   display: none; /* Hide it for larger screens */
 }
 
+.mat-sidenav-container {
+  height: 100%; /* Ensure full height */
+}
+
 /* Optional: Show menu icon only for small screens */
 @media (max-width: 768px) {
   .nav-links {
-    display: none; /* Hide links in smaller screens */
+    display: none; /* Hide links on small screens */
   }
   .menu-icon {
-    display: block;
+    display: block; /* Show hamburger icon on small screens */
   }
 }
