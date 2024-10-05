@@ -9,10 +9,5 @@ import { WelcomeService } from '../../welcome.service';
 export class WelcomeComponent implements OnInit {
   constructor(public welcomeService: WelcomeService) {}
   data: string = '';
-  ngOnInit(): void {
-    this.welcomeService.getWelcomeMessage().subscribe((data: any) => {
-      console.log(data);
-      this.data = data;
-    });
-  }
+  ngOnInit(): void {}
 }

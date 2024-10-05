@@ -1,4 +1,28 @@
-.img{
-    width: 400px;
-    height: 400px;
+.img {
+  width: 400px;
+  height: 400px;
 }
+
+div {
+  background: linear-gradient(to top, rgb(26, 155, 247), white);
+  height: 100%;
+}
+
+// div {
+//   height: 100%;
+//   background: linear-gradient(to top, blue, white);
+//   background-size: 200% 200%;
+//   animation: gradientMove 10s ease infinite;
+// }
+
+// @keyframes gradientMove {
+//   0% {
+//     background-position: 0% 100%;
+//   }
+//   50% {
+//     background-position: 100% 0%;
+//   }
+//   100% {
+//     background-position: 0% 100%;
+//   }
+// }
