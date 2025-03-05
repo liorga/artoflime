@@ -35,3 +35,14 @@ form {
     }
   }
 }
+
+footer {
+  .phone-number-div {
+    display: flex;
+    gap: 16px;
+    span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
