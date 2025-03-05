@@ -1,0 +1,18 @@
+<div #glide class="glide" *ngIf="slides.length > 0">
+  <div class="glide__track" data-glide-el="track">
+    <ul class="glide__slides">
+      <li class="glide__slide" *ngFor="let slide of slides">
+        {{ slide }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="glide__arrows" data-glide-el="controls">
+    <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
+      <
+    </button>
+    <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
+      >
+    </button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.glide {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+
+  .glide__slide {
+    background: #ddd;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .glide__arrows {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .glide__arrow {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+}
