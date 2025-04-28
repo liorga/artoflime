@@ -16,8 +16,15 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   @ViewChild('glide', { static: false }) glideElement!: ElementRef;
   private glideInstance: any;
 
-  slides = ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4'];
+  // slides = ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4'];
+  slides = [
+    'assets/images/IMG_0150.jpg',
+    'assets/images/IMG_0840.jpg',
+    'assets/images/IMG_4362.jpg',
+    'assets/images/IMG_4589.jpg',
+  ];
 
+  images: string[] = [];
   ngAfterViewInit() {
     // Ensure the component initializes after Angular finishes rendering
     setTimeout(() => {

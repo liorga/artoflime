@@ -8,6 +8,13 @@
     text-align: center;
     padding: 20px;
     border-radius: 5px;
+
+    img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
   }
 
   .glide__arrows {
