@@ -1,0 +1,352 @@
+.gallery-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Filter Buttons
+.gallery-filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+
+  .filter-btn {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #ff6b35;
+      color: #ff6b35;
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      background: #ff6b35;
+      border-color: #ff6b35;
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+  }
+}
+
+// Gallery Grid
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+
+  .gallery-item {
+    cursor: pointer;
+    border-radius: 15px;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out both;
+
+    .image-container {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+        img {
+          transform: scale(1.1);
+        }
+
+        .image-overlay {
+          opacity: 1;
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 53, 0.9) 0%,
+          rgba(247, 147, 30, 0.9) 100%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.5rem;
+        opacity: 0;
+        transition: all 0.3s ease;
+
+        .image-info {
+          h3 {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+          }
+
+          .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            &.before {
+              background: rgba(220, 53, 69, 0.9);
+              color: white;
+            }
+
+            &.after {
+              background: rgba(40, 167, 69, 0.9);
+              color: white;
+            }
+          }
+        }
+
+        .expand-icon {
+          align-self: flex-end;
+          color: white;
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+// Lightbox
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-info {
+      margin-top: 1.5rem;
+      text-align: center;
+
+      h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .category-badge {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &.before {
+          background: rgba(220, 53, 69, 0.9);
+          color: white;
+        }
+
+        &.after {
+          background: rgba(40, 167, 69, 0.9);
+          color: white;
+        }
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -60px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 107, 53, 0.8);
+        transform: scale(1.1);
+      }
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 107, 53, 0.8);
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      &.prev {
+        left: -80px;
+      }
+
+      &.next {
+        right: -80px;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mobile Responsive
+@media (max-width: 768px) {
+  .gallery-filters {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+
+    .filter-btn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .lightbox {
+    .lightbox-content {
+      max-width: 95vw;
+
+      img {
+        max-height: 70vh;
+      }
+
+      .close-btn {
+        top: -50px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-btn {
+        width: 50px;
+        height: 50px;
+
+        &.prev {
+          left: -60px;
+        }
+
+        &.next {
+          right: -60px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .lightbox {
+    .lightbox-content {
+      .nav-btn {
+        &.prev {
+          left: 10px;
+          bottom: 20px;
+          top: auto;
+          transform: none;
+        }
+
+        &.next {
+          right: 10px;
+          bottom: 20px;
+          top: auto;
+          transform: none;
+        }
+      }
+
+      .close-btn {
+        top: 10px;
+        right: 10px;
+      }
+    }
+  }
+}

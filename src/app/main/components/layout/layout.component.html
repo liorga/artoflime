@@ -1,4 +1,137 @@
-<app-header></app-header>
-<app-main>
-  <router-outlet></router-outlet>
-</app-main>
+<div class="fullpage-container" #fullPageContainer [class.loaded]="!isLoading">
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress">
+    <div class="progress-bar" [style.height.%]="scrollProgress"></div>
+  </div>
+
+  <!-- Side Navigation -->
+  <div class="loading-screen" *ngIf="isLoading">
+    <div class="loading-content">
+      <div class="loading-logo">
+        <h1>Art of Lime</h1>
+      </div>
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+      </div>
+      <p>Creating beautiful experiences...</p>
+    </div>
+  </div>
+
+  <!-- Full-page scrolling container -->
+  <div
+    class="fullpage-container"
+    #fullPageContainer
+    [class.loaded]="!isLoading"
+  >
+    <!-- Side Navigation -->
+    <nav class="side-nav">
+      <ul>
+        <li
+          *ngFor="let section of sections; let i = index"
+          [class.active]="activeSection === i"
+          (click)="scrollToSection(i)"
+        >
+          <span class="nav-dot"></span>
+          <span class="nav-label">{{ section.label }}</span>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section hero-section" #section0>
+      <div class="hero-content">
+        <h1 class="hero-title">Art of Lime</h1>
+        <p class="hero-subtitle">
+          Transform Your Space with Artistic Excellence
+        </p>
+        <div class="hero-cta">
+          <button class="cta-button" (click)="scrollToSection(1)">
+            Explore Our Work
+          </button>
+        </div>
+      </div>
+      <div class="hero-background">
+        <img
+          src="assets/images/IMG_4589.jpg"
+          alt="Hero Background"
+          class="hero-bg-image"
+        />
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about-section" #section1>
+      <div class="section-content">
+        <div class="about-text">
+          <h2>About Art of Lime</h2>
+          <p>
+            We are passionate artists dedicated to transforming spaces through
+            creative expression. Our team specializes in custom artwork,
+            interior design, and artistic consultations that bring your vision
+            to life.
+          </p>
+          <div class="about-features">
+            <div class="feature">
+              <h3>Custom Artwork</h3>
+              <p>Personalized pieces tailored to your space</p>
+            </div>
+            <div class="feature">
+              <h3>Interior Design</h3>
+              <p>Complete room transformations</p>
+            </div>
+            <div class="feature">
+              <h3>Consultation</h3>
+              <p>Expert advice for your artistic needs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery-section" #section2>
+      <div class="section-content">
+        <h2>Our Gallery</h2>
+        <app-custom-gallery></app-custom-gallery>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact-section" #section3>
+      <div class="section-content">
+        <div class="contact-container">
+          <div class="contact-info">
+            <h2>Get In Touch</h2>
+            <p>Ready to transform your space? Let's discuss your project.</p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <h3>Email</h3>
+                <p>hello@artoflime.com</p>
+              </div>
+              <div class="contact-item">
+                <h3>Phone</h3>
+                <p>+1 (555) 123-4567</p>
+              </div>
+              <div class="contact-item">
+                <h3>Location</h3>
+                <p>Creative District, Your City</p>
+              </div>
+            </div>
+          </div>
+          <div class="contact-form">
+            <form>
+              <input type="text" placeholder="Your Name" required />
+              <input type="email" placeholder="Your Email" required />
+              <textarea
+                placeholder="Tell us about your project"
+                rows="5"
+                required
+              ></textarea>
+              <button type="submit">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

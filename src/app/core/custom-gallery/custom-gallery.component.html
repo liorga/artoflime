@@ -1,0 +1,131 @@
+<div class="gallery-container">
+  <!-- Filter Buttons -->
+  <div class="gallery-filters">
+    <button
+      [class.active]="activeFilter === 'all'"
+      (click)="filterImages('all')"
+      class="filter-btn"
+    >
+      All Work
+    </button>
+    <button
+      [class.active]="activeFilter === 'before'"
+      (click)="filterImages('before')"
+      class="filter-btn"
+    >
+      Before
+    </button>
+    <button
+      [class.active]="activeFilter === 'after'"
+      (click)="filterImages('after')"
+      class="filter-btn"
+    >
+      After
+    </button>
+  </div>
+
+  <!-- Gallery Grid -->
+  <div class="gallery-grid">
+    <div
+      *ngFor="let image of filteredImages; let i = index"
+      class="gallery-item"
+      (click)="openLightbox(image)"
+      [style.animation-delay.ms]="i * 100"
+    >
+      <div class="image-container">
+        <img [src]="image.src" [alt]="image.alt" loading="lazy" />
+        <div class="image-overlay">
+          <div class="image-info">
+            <h3>{{ image.title }}</h3>
+            <span class="category-badge" [class]="image.category">
+              {{ image.category }}
+            </span>
+          </div>
+          <div class="expand-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 9L15 15M15 9L9 15"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" *ngIf="selectedImage" (click)="closeLightbox()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeLightbox()">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6L6 18M6 6L18 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+
+      <img [src]="selectedImage.src" [alt]="selectedImage.alt" />
+
+      <div class="lightbox-info">
+        <h3>{{ selectedImage.title }}</h3>
+        <span class="category-badge" [class]="selectedImage.category">
+          {{ selectedImage.category }}
+        </span>
+      </div>
+
+      <button class="nav-btn prev" (click)="previousImage()">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 18L9 12L15 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+
+      <button class="nav-btn next" (click)="nextImage()">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9 18L15 12L9 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
