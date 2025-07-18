@@ -91,25 +91,41 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // Touch events for mobile
+  // Touch events for mobile - make less aggressive
   private touchStartY = 0;
   private touchEndY = 0;
+  private isMobile = false;
 
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent): void {
     this.touchStartY = event.changedTouches[0].screenY;
+    this.isMobile = true;
   }
 
   @HostListener('touchend', ['$event'])
   onTouchEnd(event: TouchEvent): void {
     this.touchEndY = event.changedTouches[0].screenY;
-    this.handleSwipe();
+    // Only handle swipes on mobile, and only if not in gallery
+    if (this.isMobile && !this.isInGallerySection(event)) {
+      this.handleSwipe();
+    }
+  }
+
+  private isInGallerySection(event: TouchEvent): boolean {
+    // Check if the touch event originated from within the gallery section
+    const target = event.target as Element;
+    return (
+      target?.closest('.gallery-section') !== null ||
+      target?.closest('.gallery-grid') !== null ||
+      target?.closest('.custom-gallery') !== null
+    );
   }
 
   private handleSwipe(): void {
     if (this.isScrolling) return;
 
-    const swipeThreshold = 50;
+    // Increase swipe threshold for less aggressive behavior on mobile
+    const swipeThreshold = this.isMobile ? 100 : 50; // Doubled for mobile
     const diff = this.touchStartY - this.touchEndY;
 
     if (Math.abs(diff) > swipeThreshold) {

@@ -142,7 +142,7 @@
   <!-- Grid View -->
   <div class="grid-view" *ngIf="viewMode === 'grid'">
     <!-- Gallery Grid -->
-    <div class="gallery-grid">
+    <div class="gallery-grid" #galleryGrid>
       <div
         *ngFor="let image of filteredImages; let i = index"
         class="gallery-item"

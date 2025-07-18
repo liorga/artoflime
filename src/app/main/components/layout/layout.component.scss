@@ -61,6 +61,11 @@
     opacity: 1;
     animation: fadeIn 0.5s ease-out;
   }
+
+  // On mobile, reduce scroll snap aggressiveness
+  @media (max-width: 768px) {
+    scroll-snap-type: y proximity; // Less aggressive snapping
+  }
 } // Scroll Progress Indicator
 .scroll-progress {
   position: fixed;
@@ -159,6 +164,13 @@
   position: relative;
   overflow-x: hidden; // Only hide horizontal overflow
   padding: 80px 0; // Add padding for content breathing room
+
+  // Better mobile section handling
+  @media (max-width: 768px) {
+    min-height: auto; // Allow sections to be shorter on mobile
+    padding: 60px 0;
+    scroll-snap-align: none; // Disable snap align on mobile for some sections
+  }
 }
 
 .section-content {
@@ -169,6 +181,16 @@
   position: relative;
   z-index: 2;
   animation: fadeInUp 1s ease-out;
+
+  // Better mobile content handling
+  @media (max-width: 768px) {
+    padding: 0 25px; // More generous mobile padding
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 20px;
+  }
 }
 
 // Hero Section
@@ -398,12 +420,34 @@
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   color: white;
 
+  // Better mobile padding to prevent content cutting
+  @media (max-width: 768px) {
+    padding: 60px 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 40px 0;
+  }
+
   .contact-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: start;
     max-width: 1000px;
+
+    // Better mobile layout
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 0 25px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 480px) {
+      padding: 0 20px;
+      gap: 1.5rem;
+    }
   }
 
   .contact-info {
@@ -600,13 +644,18 @@
   }
 
   .section-content {
-    padding: 0 20px;
+    padding: 0 25px; // More generous padding
     max-width: 100%;
   }
 
   .gallery-section {
+    // Special handling for gallery section to prevent scroll conflicts
+    scroll-snap-align: none; // Disable snap for gallery on mobile
+    min-height: auto; // Allow natural height
+    padding: 40px 0; // Reduced padding
+
     .section-content {
-      padding: 0 20px;
+      padding: 0 25px;
       max-width: 100%;
     }
   }
@@ -614,6 +663,7 @@
   .contact-container {
     grid-template-columns: 1fr;
     gap: 2rem;
+    padding: 0 25px; // Better mobile padding
   }
 
   .about-features {
@@ -622,34 +672,50 @@
 
     .feature {
       padding: 1.5rem;
+      margin: 0 10px; // Prevent edge cutting
     }
+  }
+
+  // Ensure no content is cut at edges
+  .hero-content,
+  .about-text,
+  .projects-content {
+    padding: 0 25px;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 480px) {
   .section-content {
-    padding: 0 15px;
+    padding: 0 20px; // Adequate padding for smallest screens
   }
 
   .gallery-section {
+    padding: 30px 0; // Even more reduced padding for small screens
+
     .section-content {
-      padding: 0 15px;
+      padding: 0 20px;
     }
   }
 
   .hero-content {
+    padding: 0 20px; // Ensure hero content fits
+
     .hero-title {
       font-size: 2.5rem;
       padding: 0 10px;
+      line-height: 1.1; // Tighter line height to fit better
     }
 
     .hero-subtitle {
       font-size: 1.1rem;
+      padding: 0 10px;
     }
 
     .cta-button {
       padding: 12px 30px;
       font-size: 1rem;
+      margin: 0 10px; // Prevent button edge cutting
     }
   }
 
@@ -664,5 +730,17 @@
         height: 8px;
       }
     }
+  }
+
+  // Extra protection against content cutting
+  .contact-container,
+  .about-features {
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  // Reduce scroll snap aggressiveness further on very small screens
+  .fullpage-container {
+    scroll-snap-type: none; // Completely disable on very small screens
   }
 }

@@ -1,4 +1,10 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 
 interface GalleryImage {
   src: string;
@@ -15,6 +21,8 @@ type ViewMode = 'carousel' | 'grid';
   styleUrls: ['./custom-gallery.component.scss'],
 })
 export class CustomGalleryComponent implements OnInit {
+  @ViewChild('galleryGrid', { static: false }) galleryGrid!: ElementRef;
+
   images: GalleryImage[] = [
     {
       src: 'assets/images/IMG_0150.jpg',
@@ -57,6 +65,20 @@ export class CustomGalleryComponent implements OnInit {
 
   ngOnInit(): void {
     this.filteredImages = this.images;
+    this.setupMobileScrollProtection();
+  }
+
+  private setupMobileScrollProtection(): void {
+    // Prevent mobile gallery scroll from affecting main page scroll
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        if (this.galleryGrid && this.galleryGrid.nativeElement) {
+          const gridElement = this.galleryGrid.nativeElement;
+          gridElement.style.overscrollBehavior = 'contain';
+          gridElement.style.touchAction = 'pan-y';
+        }
+      }, 100);
+    }
   }
 
   @HostListener('keydown', ['$event'])
@@ -94,6 +116,8 @@ export class CustomGalleryComponent implements OnInit {
   // View Mode Management
   setViewMode(mode: ViewMode): void {
     this.viewMode = mode;
+    // Re-setup mobile protection when switching modes
+    this.setupMobileScrollProtection();
   }
 
   // Carousel Navigation

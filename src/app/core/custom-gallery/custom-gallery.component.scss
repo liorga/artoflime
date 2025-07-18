@@ -3,6 +3,14 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
+
+  // Prevent gallery scroll from affecting page scroll on mobile
+  @media (max-width: 768px) {
+    padding: 0 25px;
+
+    // Prevent overscroll from triggering section changes
+    overscroll-behavior: contain;
+  }
 }
 
 // Gallery Header with Toggle
@@ -215,6 +223,12 @@
 
 // Grid View (existing styles with some updates)
 .grid-view {
+  // Prevent gallery grid scroll from affecting main scroll on mobile
+  @media (max-width: 768px) {
+    overscroll-behavior: contain; // Prevent scroll chaining
+    -webkit-overflow-scrolling: touch; // Smooth touch scrolling
+  }
+
   // Filter Buttons
   .gallery-filters {
     display: flex;
@@ -256,14 +270,22 @@
     width: 100%;
     max-width: 100%;
 
+    // Prevent grid scroll from triggering section scroll on mobile
     @media (max-width: 768px) {
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
+      padding: 0 10px; // Extra padding to prevent edge cutting
+      overscroll-behavior: contain; // Critical: prevent scroll chaining
+
+      // Add padding bottom to ensure last items are fully visible
+      padding-bottom: 40px;
     }
 
     @media (max-width: 480px) {
       grid-template-columns: 1fr;
       gap: 1rem;
+      padding: 0 15px;
+      padding-bottom: 60px; // More space at bottom
     }
 
     .gallery-item {
@@ -620,14 +642,19 @@
 
 @media (max-width: 480px) {
   .gallery-container {
-    padding: 0 15px;
+    padding: 0 20px; // Better mobile padding
   }
 
   .grid-view {
     .gallery-grid {
       grid-template-columns: 1fr;
       gap: 1rem;
-      padding: 0;
+      padding: 0 15px;
+      padding-bottom: 60px; // Ensure last item is fully visible
+
+      // Extra protection against scroll conflicts
+      overscroll-behavior: contain;
+      touch-action: pan-y; // Only allow vertical panning
     }
   }
 
