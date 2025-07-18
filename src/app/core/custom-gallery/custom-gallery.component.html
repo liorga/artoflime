@@ -71,15 +71,15 @@
     <div class="carousel-container">
       <div class="main-image">
         <img
-          [src]="filteredImages[currentImageIndex]?.src"
-          [alt]="filteredImages[currentImageIndex]?.alt"
+          [src]="filteredImages[currentImageIndex].src"
+          [alt]="filteredImages[currentImageIndex].alt"
           (click)="openLightbox(filteredImages[currentImageIndex])"
           class="featured-image"
         />
 
         <!-- Image Info Overlay -->
         <div class="image-info-overlay">
-          <h3>{{ filteredImages[currentImageIndex]?.title }}</h3>
+          <h3>{{ filteredImages[currentImageIndex].title }}</h3>
         </div>
 
         <!-- Navigation Arrows -->
