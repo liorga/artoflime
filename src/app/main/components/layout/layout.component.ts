@@ -24,6 +24,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   isScrolling = false;
   isLoading = true;
   scrollProgress = 0;
+  isMobileMenuOpen = false; // Mobile menu state
   sections = [
     { label: 'Home' },
     { label: 'About' },
@@ -67,7 +68,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.isScrolling) return;
+    // Disable keyboard navigation on mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile || this.isScrolling) return;
 
     switch (event.key) {
       case 'ArrowDown':
@@ -105,12 +108,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostListener('touchend', ['$event'])
   onTouchEnd(event: TouchEvent): void {
     this.touchEndY = event.changedTouches[0].screenY;
-    // Only handle swipes on mobile, and only if not in gallery
-    if (this.isMobile && !this.isInGallerySection(event)) {
+
+    // Allow touch navigation but with much higher threshold on mobile
+    if (!this.isInGallerySection(event)) {
       this.handleSwipe();
     }
   }
-
   private isInGallerySection(event: TouchEvent): boolean {
     // Check if the touch event originated from within the gallery section
     const target = event.target as Element;
@@ -121,14 +124,21 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  private isInAboutSection(event: TouchEvent): boolean {
+    // Check if the touch event originated from within the about section
+    const target = event.target as Element;
+    return target?.closest('.about-section') !== null;
+  }
+
   private handleSwipe(): void {
     if (this.isScrolling) return;
 
-    // Increase swipe threshold for less aggressive behavior on mobile
-    const swipeThreshold = this.isMobile ? 100 : 50; // Doubled for mobile
+    // Much higher threshold on mobile for less aggressive navigation
+    const isMobile = window.innerWidth <= 768;
+    const baseThreshold = isMobile ? 200 : 50; // Very high threshold on mobile
     const diff = this.touchStartY - this.touchEndY;
 
-    if (Math.abs(diff) > swipeThreshold) {
+    if (Math.abs(diff) > baseThreshold) {
       if (diff > 0) {
         // Swiped up (scroll down)
         this.nextSection();
@@ -152,24 +162,51 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   scrollToSection(index: number): void {
-    if (this.isScrolling || index === this.activeSection) return;
+    if (index === this.activeSection) return;
 
+    // Don't prevent scrolling if it's manual navigation
     this.isScrolling = true;
     this.activeSection = index;
 
     const targetElement = this.sectionElements[index];
     if (targetElement) {
-      // Use native scrollIntoView for better compatibility
+      // Always use smooth scrolling for manual navigation
       targetElement.nativeElement.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
 
+      // Close mobile menu if open
+      if (this.isMobileMenuOpen) {
+        this.closeMobileMenu();
+      }
+
       // Reset scrolling flag after animation
       setTimeout(() => {
         this.isScrolling = false;
-      }, 800);
+      }, 1000); // Longer timeout to ensure smooth completion
     }
+  }
+
+  // Mobile menu methods
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+
+    // Prevent body scroll when menu is open
+    if (this.isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  navigateToSection(index: number): void {
+    this.scrollToSection(index);
   }
 
   private snapToNearestSection(): void {
@@ -214,7 +251,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Cleanup if needed
+    // Cleanup: restore body scroll
+    document.body.style.overflow = 'auto';
   }
 
   private updateScrollProgress(): void {

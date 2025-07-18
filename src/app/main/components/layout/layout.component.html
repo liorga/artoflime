@@ -37,6 +37,45 @@
       </ul>
     </nav>
 
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+      <!-- Hamburger Button -->
+      <button
+        class="hamburger-btn"
+        [class.active]="isMobileMenuOpen"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle navigation menu"
+      >
+        <div class="hamburger-icon" [class.open]="isMobileMenuOpen">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Mobile Menu Overlay -->
+      <div
+        class="menu-overlay"
+        [class.open]="isMobileMenuOpen"
+        (click)="closeMobileMenu()"
+      ></div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+        <h3 class="menu-title">Navigation</h3>
+        <ul class="menu-items">
+          <li *ngFor="let section of sections; let i = index">
+            <button
+              [class.active]="activeSection === i"
+              (click)="navigateToSection(i)"
+            >
+              {{ section.label }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="section hero-section" #section0>
       <div class="hero-content">

@@ -62,9 +62,10 @@
     animation: fadeIn 0.5s ease-out;
   }
 
-  // On mobile, reduce scroll snap aggressiveness
+  // Much less aggressive scroll snapping on mobile
   @media (max-width: 768px) {
-    scroll-snap-type: y proximity; // Less aggressive snapping
+    scroll-snap-type: y proximity; // Less aggressive
+    scroll-behavior: auto; // Natural scrolling
   }
 } // Scroll Progress Indicator
 .scroll-progress {
@@ -91,6 +92,11 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 1000;
+
+  // Hide desktop navigation on mobile, show hamburger instead
+  @media (max-width: 768px) {
+    display: none;
+  }
 
   ul {
     list-style: none;
@@ -154,6 +160,161 @@
   }
 }
 
+// Mobile Hamburger Menu
+.mobile-nav {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+  }
+
+  .hamburger-btn {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 107, 53, 0.9);
+      transform: scale(1.1);
+    }
+
+    &.active {
+      background: #ff6b35;
+    }
+
+    .hamburger-icon {
+      display: flex;
+      flex-direction: column;
+      width: 20px;
+      height: 14px;
+      justify-content: space-between;
+
+      span {
+        width: 100%;
+        height: 2px;
+        background: white;
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+
+      &.open {
+        span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+        span:nth-child(2) {
+          opacity: 0;
+        }
+        span:nth-child(3) {
+          transform: rotate(-45deg) translate(7px, -6px);
+        }
+      }
+    }
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
+    backdrop-filter: blur(20px);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding: 80px 20px 20px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    .menu-title {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      background: linear-gradient(45deg, #fff, #ff6b35);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .menu-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-bottom: 1rem;
+
+        button {
+          width: 100%;
+          background: transparent;
+          color: rgba(255, 255, 255, 0.8);
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          padding: 15px 20px;
+          border-radius: 10px;
+          font-size: 1.1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-align: left;
+
+          &:hover {
+            background: rgba(255, 107, 53, 0.2);
+            border-color: #ff6b35;
+            color: white;
+            transform: translateX(5px);
+          }
+
+          &.active {
+            background: #ff6b35;
+            border-color: #ff6b35;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+
+    &.open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
 // Section base styles
 .section {
   min-height: 100vh;
@@ -165,14 +326,17 @@
   overflow-x: hidden; // Only hide horizontal overflow
   padding: 80px 0; // Add padding for content breathing room
 
-  // Better mobile section handling
+  // Less aggressive mobile section handling
   @media (max-width: 768px) {
-    min-height: auto; // Allow sections to be shorter on mobile
+    scroll-snap-align: start; // Keep basic snapping
+    min-height: auto; // Allow natural content flow
     padding: 60px 0;
-    scroll-snap-align: none; // Disable snap align on mobile for some sections
+  }
+
+  @media (max-width: 480px) {
+    padding: 40px 0;
   }
 }
-
 .section-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -626,32 +790,31 @@
 
 // Mobile Responsive
 @media (max-width: 768px) {
-  .side-nav {
-    right: 15px;
-
-    ul li {
-      margin: 10px 0;
-
-      .nav-dot {
-        width: 10px;
-        height: 10px;
-      }
-
-      .nav-label {
-        display: none; // Hide labels on mobile
-      }
-    }
-  }
+  // Side nav is hidden on mobile (handled in .side-nav section above)
 
   .section-content {
     padding: 0 25px; // More generous padding
     max-width: 100%;
   }
 
+  .hero-section {
+    // Keep standard behavior for hero section
+    scroll-snap-align: start;
+    min-height: 100vh; // Keep full height for hero
+  }
+
+  .about-section {
+    // Make About section less aggressive with scrolling
+    scroll-snap-align: start;
+    scroll-snap-stop: normal; // Allow smooth scrolling through
+    scroll-margin-top: 40px; // Extra margin for better snapping behavior
+  }
+
   .gallery-section {
-    // Special handling for gallery section to prevent scroll conflicts
-    scroll-snap-align: none; // Disable snap for gallery on mobile
-    min-height: auto; // Allow natural height
+    // Allow snapping to gallery section but protect internal scrolling
+    scroll-snap-align: start; // Re-enable snapping to reach gallery
+    scroll-snap-stop: normal; // Allow smooth scrolling through
+    min-height: 100vh; // Ensure it takes full height for proper snapping
     padding: 40px 0; // Reduced padding
 
     .section-content {
@@ -719,18 +882,7 @@
     }
   }
 
-  .side-nav {
-    right: 10px;
-
-    ul li {
-      margin: 8px 0;
-
-      .nav-dot {
-        width: 8px;
-        height: 8px;
-      }
-    }
-  }
+  // Side nav is hidden on very small screens (handled in .side-nav section)
 
   // Extra protection against content cutting
   .contact-container,
@@ -739,8 +891,9 @@
     box-sizing: border-box;
   }
 
-  // Reduce scroll snap aggressiveness further on very small screens
+  // Keep some structure but reduce aggressiveness on very small screens
   .fullpage-container {
-    scroll-snap-type: none; // Completely disable on very small screens
+    scroll-snap-type: y proximity; // Use proximity instead of none
+    scroll-behavior: auto; // Remove smooth scrolling for better control
   }
 }
