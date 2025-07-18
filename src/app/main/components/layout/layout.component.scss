@@ -151,13 +151,14 @@
 
 // Section base styles
 .section {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   scroll-snap-align: start;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden; // Only hide horizontal overflow
+  padding: 80px 0; // Add padding for content breathing room
 }
 
 .section-content {
@@ -175,6 +176,9 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   color: white;
+  min-height: 100vh;
+  padding: 120px 0; // Extra padding to prevent clipping
+  overflow: hidden; // Hide overflow to prevent double scrollbars
 
   .hero-background {
     position: absolute;
@@ -213,21 +217,34 @@
     text-align: center;
 
     .hero-title {
-      font-size: clamp(3rem, 8vw, 6rem);
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
       font-weight: 700;
       margin-bottom: 1rem;
+      line-height: 1.1;
       background: linear-gradient(45deg, #fff, #ff6b35);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: fadeInUp 1s ease-out, textShine 3s ease-in-out infinite;
+      padding: 0 20px; // Add padding to prevent clipping
     }
 
     .hero-subtitle {
       font-size: clamp(1.2rem, 3vw, 1.8rem);
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       opacity: 0.9;
       animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .hero-description {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      margin-bottom: 2rem;
+      opacity: 0.8;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      animation: fadeInUp 1s ease-out 0.4s both;
     }
 
     .hero-cta {
@@ -288,18 +305,6 @@
       margin-bottom: 1.5rem;
       font-weight: 700;
       position: relative;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100px;
-        height: 4px;
-        background: linear-gradient(45deg, #ff6b35, #f7931e);
-        border-radius: 2px;
-      }
     }
 
     p {
@@ -370,6 +375,14 @@
 .gallery-section {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
+  min-height: 100vh;
+  padding: 100px 0; // Extra padding for gallery content
+
+  .section-content {
+    width: 100%;
+    max-width: 1400px; // Increase max-width for gallery
+    padding: 0 40px; // More padding on sides
+  }
 
   h2 {
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -377,18 +390,6 @@
     font-weight: 700;
     color: white;
     position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(45deg, #ff6b35, #f7931e);
-      border-radius: 2px;
-    }
   }
 }
 
@@ -411,17 +412,6 @@
       margin-bottom: 1rem;
       font-weight: 700;
       position: relative;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(45deg, #ff6b35, #f7931e);
-        border-radius: 2px;
-      }
     }
 
     p {
@@ -610,7 +600,15 @@
   }
 
   .section-content {
-    padding: 0 15px;
+    padding: 0 20px;
+    max-width: 100%;
+  }
+
+  .gallery-section {
+    .section-content {
+      padding: 0 20px;
+      max-width: 100%;
+    }
   }
 
   .contact-container {
@@ -629,9 +627,20 @@
 }
 
 @media (max-width: 480px) {
+  .section-content {
+    padding: 0 15px;
+  }
+
+  .gallery-section {
+    .section-content {
+      padding: 0 15px;
+    }
+  }
+
   .hero-content {
     .hero-title {
       font-size: 2.5rem;
+      padding: 0 10px;
     }
 
     .hero-subtitle {

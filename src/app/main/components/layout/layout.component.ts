@@ -27,7 +27,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   sections = [
     { label: 'Home' },
     { label: 'About' },
-    { label: 'Gallery' },
+    { label: 'Projects' },
     { label: 'Contact' },
   ];
 

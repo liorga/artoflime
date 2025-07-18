@@ -4,8 +4,10 @@ interface GalleryImage {
   src: string;
   alt: string;
   title: string;
-  category: 'before' | 'after';
+  category: 'residential' | 'commercial' | 'heritage';
 }
+
+type ViewMode = 'carousel' | 'grid';
 
 @Component({
   selector: 'app-custom-gallery',
@@ -16,33 +18,40 @@ export class CustomGalleryComponent implements OnInit {
   images: GalleryImage[] = [
     {
       src: 'assets/images/IMG_0150.jpg',
-      alt: 'Art transformation before',
-      title: 'Living Room - Before',
-      category: 'before',
+      alt: 'Victorian cottage lime pointing project',
+      title: 'Victorian Cottage Restoration',
+      category: 'heritage',
     },
     {
       src: 'assets/images/IMG_0840.jpg',
-      alt: 'Art transformation after',
-      title: 'Living Room - After',
-      category: 'after',
+      alt: 'Period farmhouse lime pointing',
+      title: 'Georgian Farmhouse Pointing',
+      category: 'heritage',
     },
     {
       src: 'assets/images/IMG_4362.jpg',
-      alt: 'Bedroom transformation before',
-      title: 'Bedroom - Before',
-      category: 'before',
+      alt: 'Commercial building lime restoration',
+      title: 'Historic Mill Building',
+      category: 'commercial',
     },
     {
       src: 'assets/images/IMG_4589.jpg',
-      alt: 'Bedroom transformation after',
-      title: 'Bedroom - After',
-      category: 'after',
+      alt: 'Residential lime pointing work',
+      title: 'Edwardian Terraced House',
+      category: 'residential',
+    },
+    {
+      src: 'assets/images/zara.jpeg',
+      alt: 'Stone cottage lime pointing',
+      title: 'Cotswold Stone Cottage',
+      category: 'heritage',
     },
   ];
 
   selectedImage: GalleryImage | null = null;
   filteredImages: GalleryImage[] = [];
-  activeFilter: 'all' | 'before' | 'after' = 'all';
+  viewMode: ViewMode = 'carousel';
+  currentImageIndex: number = 0;
 
   constructor() {}
 
@@ -52,35 +61,63 @@ export class CustomGalleryComponent implements OnInit {
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (!this.selectedImage) return;
-
-    switch (event.key) {
-      case 'Escape':
-        this.closeLightbox();
-        break;
-      case 'ArrowLeft':
-        event.preventDefault();
-        this.previousImage();
-        break;
-      case 'ArrowRight':
-        event.preventDefault();
-        this.nextImage();
-        break;
+    if (this.selectedImage) {
+      // Lightbox navigation
+      switch (event.key) {
+        case 'Escape':
+          this.closeLightbox();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          this.previousImage();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          this.nextImage();
+          break;
+      }
+    } else if (this.viewMode === 'carousel') {
+      // Carousel navigation
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          this.previousCarouselImage();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          this.nextCarouselImage();
+          break;
+      }
     }
   }
 
-  filterImages(category: 'all' | 'before' | 'after'): void {
-    this.activeFilter = category;
+  // View Mode Management
+  setViewMode(mode: ViewMode): void {
+    this.viewMode = mode;
+  }
 
-    if (category === 'all') {
-      this.filteredImages = this.images;
-    } else {
-      this.filteredImages = this.images.filter(
-        (img) => img.category === category
-      );
+  // Carousel Navigation
+  nextCarouselImage(): void {
+    if (this.filteredImages.length > 0) {
+      this.currentImageIndex =
+        (this.currentImageIndex + 1) % this.filteredImages.length;
     }
   }
 
+  previousCarouselImage(): void {
+    if (this.filteredImages.length > 0) {
+      this.currentImageIndex =
+        this.currentImageIndex === 0
+          ? this.filteredImages.length - 1
+          : this.currentImageIndex - 1;
+    }
+  }
+
+  setCurrentImage(index: number): void {
+    this.currentImageIndex = index;
+  }
+
+  // Lightbox Management
   openLightbox(image: GalleryImage): void {
     this.selectedImage = image;
     document.body.style.overflow = 'hidden';
