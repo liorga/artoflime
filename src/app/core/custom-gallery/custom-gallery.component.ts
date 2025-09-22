@@ -9,7 +9,7 @@ import {
 interface GalleryImage {
   src: string;
   alt: string;
-  title: string;
+  title?: string;
   category: 'residential' | 'commercial' | 'heritage';
 }
 
@@ -25,34 +25,49 @@ export class CustomGalleryComponent implements OnInit {
 
   images: GalleryImage[] = [
     {
-      src: 'assets/images/IMG_0150.jpg',
-      alt: 'Victorian cottage lime pointing project',
-      title: 'Victorian Cottage Restoration',
+      src: 'assets/images/artoflime0.jpg',
+      alt: 'Art of Lime project 1',
       category: 'heritage',
     },
     {
-      src: 'assets/images/IMG_0840.jpg',
-      alt: 'Period farmhouse lime pointing',
-      title: 'Georgian Farmhouse Pointing',
+      src: 'assets/images/artoflime1.jpeg',
+      alt: 'Art of Lime project 2',
       category: 'heritage',
     },
     {
-      src: 'assets/images/IMG_4362.jpg',
-      alt: 'Commercial building lime restoration',
-      title: 'Historic Mill Building',
+      src: 'assets/images/artoflime2.jpeg',
+      alt: 'Art of Lime project 3',
       category: 'commercial',
     },
     {
-      src: 'assets/images/IMG_4589.jpg',
-      alt: 'Residential lime pointing work',
-      title: 'Edwardian Terraced House',
+      src: 'assets/images/artoflime3.jpeg',
+      alt: 'Art of Lime project 4',
       category: 'residential',
     },
     {
-      src: 'assets/images/zara.jpeg',
-      alt: 'Stone cottage lime pointing',
-      title: 'Cotswold Stone Cottage',
+      src: 'assets/images/artoflime4.jpeg',
+      alt: 'Art of Lime project 5',
       category: 'heritage',
+    },
+    {
+      src: 'assets/images/artoflime5.jpeg',
+      alt: 'Art of Lime project 6',
+      category: 'commercial',
+    },
+    {
+      src: 'assets/images/artoflime6.jpeg',
+      alt: 'Art of Lime project 7',
+      category: 'residential',
+    },
+    {
+      src: 'assets/images/artoflime7.jpeg',
+      alt: 'Art of Lime project 8',
+      category: 'heritage',
+    },
+    {
+      src: 'assets/images/artoflime8.jpeg',
+      alt: 'Art of Lime project 9',
+      category: 'commercial',
     },
   ];
 
