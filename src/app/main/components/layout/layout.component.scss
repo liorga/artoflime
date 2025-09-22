@@ -897,3 +897,129 @@
     scroll-behavior: auto; // Remove smooth scrolling for better control
   }
 }
+
+// Contact Form Styles
+.contact-form {
+  .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #ff6b35;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+      }
+
+      &.error {
+        border-color: #ff4444;
+        background: rgba(255, 68, 68, 0.1);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      margin-left: 5px;
+      opacity: 0;
+      animation: fadeInError 0.3s ease forwards;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #f7931e, #ff6b35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    &.loading {
+      background: linear-gradient(135deg, #ccc, #999);
+    }
+  }
+
+  .submit-message {
+    margin-top: 1rem;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    animation: fadeInMessage 0.5s ease;
+
+    &.success {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4caf50;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+
+    &.error {
+      background: rgba(244, 67, 54, 0.1);
+      color: #f44336;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+  }
+}
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInMessage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

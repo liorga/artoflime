@@ -7,6 +7,11 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  EmailService,
+  ContactFormData,
+} from '../../../core/services/email.service';
 
 @Component({
   selector: 'app-layout',
@@ -32,9 +37,22 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     { label: 'Contact' },
   ];
 
+  // Contact form
+  contactForm: FormGroup;
+  isSubmitting = false;
+  submitMessage = '';
+
   private sectionElements: ElementRef[] = [];
 
-  constructor() {}
+  constructor(private fb: FormBuilder, private emailService: EmailService) {
+    // Initialize contact form
+    this.contactForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      message: ['', [Validators.required, Validators.minLength(10)]],
+    });
+  }
 
   ngOnInit(): void {
     // Don't prevent scrolling - let it work naturally
@@ -206,7 +224,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   navigateToSection(index: number): void {
+    console.log('Navigating to section:', index); // Debug log
     this.scrollToSection(index);
+    this.closeMobileMenu(); // Ensure menu closes
   }
 
   private snapToNearestSection(): void {
@@ -262,5 +282,47 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       document.documentElement.scrollHeight -
       document.documentElement.clientHeight;
     this.scrollProgress = (winScroll / height) * 100;
+  }
+
+  // Contact form methods
+  onSubmitContactForm(): void {
+    if (this.contactForm.valid && !this.isSubmitting) {
+      this.isSubmitting = true;
+      this.submitMessage = '';
+
+      const formData: ContactFormData = this.contactForm.value;
+
+      this.emailService.sendEmail(formData).subscribe({
+        next: (response) => {
+          console.log('Email sent successfully:', response);
+          this.submitMessage =
+            "Thank you! Your message has been sent successfully. We'll get back to you soon.";
+          this.contactForm.reset();
+          this.isSubmitting = false;
+        },
+        error: (error) => {
+          console.error('Error sending email:', error);
+          this.submitMessage =
+            'Sorry, there was an error sending your message. Please try again or contact us directly.';
+          this.isSubmitting = false;
+        },
+      });
+    } else {
+      // Mark all fields as touched to show validation errors
+      Object.keys(this.contactForm.controls).forEach((key) => {
+        this.contactForm.get(key)?.markAsTouched();
+      });
+    }
+  }
+
+  // Helper method to check if a form field has an error
+  hasFormError(fieldName: string, errorType: string): boolean {
+    const field = this.contactForm.get(fieldName);
+    return field ? field.hasError(errorType) && field.touched : false;
+  }
+
+  // Helper method to get form field
+  getFormField(fieldName: string) {
+    return this.contactForm.get(fieldName);
   }
 }

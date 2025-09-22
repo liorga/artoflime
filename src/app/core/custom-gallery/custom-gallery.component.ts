@@ -69,6 +69,11 @@ export class CustomGalleryComponent implements OnInit {
       alt: 'Art of Lime project 9',
       category: 'commercial',
     },
+    {
+      src: 'assets/images/artoflime9.jpeg',
+      alt: 'Art of Lime project 10',
+      category: 'commercial',
+    },
   ];
 
   selectedImage: GalleryImage | null = null;

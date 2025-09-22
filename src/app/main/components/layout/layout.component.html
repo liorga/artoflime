@@ -161,11 +161,11 @@
             <div class="contact-details">
               <div class="contact-item">
                 <h3>Email</h3>
-                <p>info@artoflime.com</p>
+                <p>artoflime17@gmail.com</p>
               </div>
               <div class="contact-item">
                 <h3>Phone</h3>
-                <p>+44 (0) 1234 567890</p>
+                <p>+44 7548 884998</p>
               </div>
               <div class="contact-item">
                 <h3>Service Area</h3>
@@ -174,16 +174,104 @@
             </div>
           </div>
           <div class="contact-form">
-            <form>
-              <input type="text" placeholder="Your Name" required />
-              <input type="email" placeholder="Your Email" required />
-              <input type="tel" placeholder="Phone Number" />
-              <textarea
-                placeholder="Tell us about your property and pointing requirements"
-                rows="5"
-                required
-              ></textarea>
-              <button type="submit">Send Message</button>
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmitContactForm()">
+              <div class="form-group">
+                <input
+                  type="text"
+                  formControlName="name"
+                  placeholder="Your Name"
+                  [class.error]="
+                    hasFormError('name', 'required') ||
+                    hasFormError('name', 'minlength')
+                  "
+                />
+                <div
+                  class="error-message"
+                  *ngIf="hasFormError('name', 'required')"
+                >
+                  Name is required
+                </div>
+                <div
+                  class="error-message"
+                  *ngIf="hasFormError('name', 'minlength')"
+                >
+                  Name must be at least 2 characters long
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="email"
+                  formControlName="email"
+                  placeholder="Your Email"
+                  [class.error]="
+                    hasFormError('email', 'required') ||
+                    hasFormError('email', 'email')
+                  "
+                />
+                <div
+                  class="error-message"
+                  *ngIf="hasFormError('email', 'required')"
+                >
+                  Email is required
+                </div>
+                <div
+                  class="error-message"
+                  *ngIf="hasFormError('email', 'email')"
+                >
+                  Please enter a valid email address
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="tel"
+                  formControlName="phone"
+                  placeholder="Phone Number (optional)"
+                />
+              </div>
+
+              <div class="form-group">
+                <textarea
+                  formControlName="message"
+                  placeholder="Tell us about your property and pointing requirements"
+                  rows="5"
+                  [class.error]="
+                    hasFormError('message', 'required') ||
+                    hasFormError('message', 'minlength')
+                  "
+                ></textarea>
+                <div
+                  class="error-message"
+                  *ngIf="hasFormError('message', 'required')"
+                >
+                  Message is required
+                </div>
+                <div
+                  class="error-message"
+                  *ngIf="hasFormError('message', 'minlength')"
+                >
+                  Message must be at least 10 characters long
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                [disabled]="isSubmitting"
+                [class.loading]="isSubmitting"
+              >
+                <span *ngIf="!isSubmitting">Send Message</span>
+                <span *ngIf="isSubmitting">Sending...</span>
+              </button>
+
+              <div
+                class="submit-message"
+                *ngIf="submitMessage"
+                [class.success]="submitMessage.includes('Thank you')"
+                [class.error]="!submitMessage.includes('Thank you')"
+              >
+                {{ submitMessage }}
+              </div>
             </form>
           </div>
         </div>
