@@ -28,8 +28,8 @@ export class EmailService {
       // Check if EmailJS is loaded
       if (typeof emailjs !== 'undefined') {
         const templateParams = {
-          from_name: formData.name,
-          from_email: formData.email,
+          from_name: formData.name, // Back to from_name to match your template
+          from_email: formData.email, // Back to from_email to match your template
           phone: formData.phone || 'Not provided',
           message: formData.message,
           to_email: 'artoflime17@gmail.com',
