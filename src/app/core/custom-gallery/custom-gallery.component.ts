@@ -78,7 +78,7 @@ export class CustomGalleryComponent implements OnInit {
 
   selectedImage: GalleryImage | null = null;
   filteredImages: GalleryImage[] = [];
-  viewMode: ViewMode = 'carousel';
+  viewMode: ViewMode = 'grid'; // Changed from 'carousel' to 'grid'
   currentImageIndex: number = 0;
 
   constructor() {}

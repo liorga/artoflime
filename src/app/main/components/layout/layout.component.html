@@ -43,7 +43,7 @@
       <button
         class="hamburger-btn"
         [class.active]="isMobileMenuOpen"
-        (click)="toggleMobileMenu()"
+        (click)="toggleMobileMenu($event)"
         aria-label="Toggle navigation menu"
       >
         <div class="hamburger-icon" [class.open]="isMobileMenuOpen">
@@ -53,21 +53,14 @@
         </div>
       </button>
 
-      <!-- Mobile Menu Overlay -->
-      <div
-        class="menu-overlay"
-        [class.open]="isMobileMenuOpen"
-        (click)="closeMobileMenu()"
-      ></div>
-
-      <!-- Mobile Menu -->
+      <!-- Mobile Menu (NO OVERLAY) -->
       <div class="mobile-menu" [class.open]="isMobileMenuOpen">
         <h3 class="menu-title">Navigation</h3>
         <ul class="menu-items">
           <li *ngFor="let section of sections; let i = index">
             <button
               [class.active]="activeSection === i"
-              (click)="navigateToSection(i)"
+              (click)="navigateToSection(i); $event.stopPropagation()"
             >
               {{ section.label }}
             </button>

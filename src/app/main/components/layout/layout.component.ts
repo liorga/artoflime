@@ -6,6 +6,7 @@ import {
   HostListener,
   AfterViewInit,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -44,7 +45,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private sectionElements: ElementRef[] = [];
 
-  constructor(private fb: FormBuilder, private emailService: EmailService) {
+  constructor(
+    private fb: FormBuilder,
+    private emailService: EmailService,
+    private cdr: ChangeDetectorRef
+  ) {
     // Initialize contact form
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -71,6 +76,25 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.section3,
     ];
     this.setupIntersectionObserver();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    if (!this.isMobileMenuOpen) return;
+
+    const target = event.target as Element;
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const hamburgerBtn = document.querySelector('.hamburger-btn');
+
+    // If click is outside the menu and not on the hamburger button, close menu
+    if (
+      mobileMenu &&
+      hamburgerBtn &&
+      !mobileMenu.contains(target) &&
+      !hamburgerBtn.contains(target)
+    ) {
+      this.closeMobileMenu();
+    }
   }
 
   @HostListener('wheel', ['$event'])
@@ -180,13 +204,16 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   scrollToSection(index: number): void {
-    if (index === this.activeSection) return;
+    if (index === this.activeSection) {
+      return;
+    }
 
     // Don't prevent scrolling if it's manual navigation
     this.isScrolling = true;
     this.activeSection = index;
 
     const targetElement = this.sectionElements[index];
+
     if (targetElement) {
       // Always use smooth scrolling for manual navigation
       targetElement.nativeElement.scrollIntoView({
@@ -194,39 +221,40 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         block: 'start',
       });
 
-      // Close mobile menu if open
-      if (this.isMobileMenuOpen) {
-        this.closeMobileMenu();
-      }
-
       // Reset scrolling flag after animation
       setTimeout(() => {
         this.isScrolling = false;
       }, 1000); // Longer timeout to ensure smooth completion
+    } else {
+      console.error('Target element not found for index:', index);
     }
   }
 
   // Mobile menu methods
-  toggleMobileMenu(): void {
+  toggleMobileMenu(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
 
-    // Prevent body scroll when menu is open
-    if (this.isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    // Manually trigger change detection
+    this.cdr.detectChanges();
   }
 
-  closeMobileMenu(): void {
+  closeMobileMenu() {
     this.isMobileMenuOpen = false;
-    document.body.style.overflow = 'auto';
+    this.cdr.detectChanges();
   }
 
   navigateToSection(index: number): void {
-    console.log('Navigating to section:', index); // Debug log
-    this.scrollToSection(index);
-    this.closeMobileMenu(); // Ensure menu closes
+    // Close menu first, then navigate
+    this.closeMobileMenu();
+
+    // Add a small delay to ensure menu closes before scrolling
+    setTimeout(() => {
+      this.scrollToSection(index);
+    }, 100);
   }
 
   private snapToNearestSection(): void {
@@ -294,7 +322,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.emailService.sendEmail(formData).subscribe({
         next: (response) => {
-          console.log('Email sent successfully:', response);
           this.submitMessage =
             "Thank you! Your message has been sent successfully. We'll get back to you soon.";
           this.contactForm.reset();

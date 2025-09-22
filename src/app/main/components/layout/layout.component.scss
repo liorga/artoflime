@@ -295,24 +295,6 @@
       }
     }
   }
-
-  .menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 999;
-
-    &.open {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
 }
 
 // Section base styles
@@ -900,6 +882,8 @@
 
 // Contact Form Styles
 .contact-form {
+  padding-bottom: 40px; // Add bottom padding to prevent button cutoff
+
   .form-group {
     margin-bottom: 1.5rem;
     position: relative;
@@ -962,6 +946,7 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    margin-bottom: 20px; // Add bottom margin to prevent cutoff
 
     &:hover:not(:disabled) {
       background: linear-gradient(135deg, #f7931e, #ff6b35);
