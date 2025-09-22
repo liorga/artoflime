@@ -398,32 +398,48 @@
   justify-content: center;
   z-index: 2000;
   animation: fadeIn 0.3s ease-out;
+  backdrop-filter: blur(5px);
 
   .lightbox-content {
     position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
+    max-width: 95vw;
+    max-height: 95vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     img {
       max-width: 100%;
-      max-height: 80vh;
+      max-height: 85vh;
+      min-height: 60vh;
       object-fit: contain;
-      border-radius: 10px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease;
     }
 
     .lightbox-info {
       margin-top: 1.5rem;
       text-align: center;
+      padding: 0 20px;
 
       h3 {
         color: white;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-weight: 600;
         margin: 0 0 0.5rem 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .keyboard-hint {
+        margin-top: 0.5rem;
+
+        span {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.9rem;
+          font-weight: 400;
+          letter-spacing: 0.5px;
+        }
       }
 
       .category-badge {
@@ -454,23 +470,30 @@
 
     .close-btn {
       position: absolute;
-      top: -60px;
+      top: -70px;
       right: 0;
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.2);
       color: white;
-      width: 50px;
-      height: 50px;
+      width: 55px;
+      height: 55px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
 
       &:hover {
-        background: rgba(255, 107, 53, 0.8);
+        background: rgba(255, 107, 53, 0.9);
+        border-color: rgba(255, 107, 53, 0.9);
         transform: scale(1.1);
+      }
+
+      svg {
+        width: 28px;
+        height: 28px;
       }
     }
 
@@ -478,29 +501,36 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.2);
       color: white;
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
 
       &:hover {
-        background: rgba(255, 107, 53, 0.8);
+        background: rgba(255, 107, 53, 0.9);
+        border-color: rgba(255, 107, 53, 0.9);
         transform: translateY(-50%) scale(1.1);
       }
 
       &.prev {
-        left: -80px;
+        left: -90px;
       }
 
       &.next {
-        right: -80px;
+        right: -90px;
+      }
+
+      svg {
+        width: 30px;
+        height: 30px;
       }
     }
   }
@@ -585,6 +615,59 @@
             width: 60px;
             height: 45px;
           }
+        }
+      }
+    }
+  }
+
+  // Lightbox mobile improvements
+  .lightbox {
+    .lightbox-content {
+      max-width: 98vw;
+      max-height: 98vh;
+      padding: 0 10px;
+
+      img {
+        max-height: 75vh;
+        min-height: 50vh;
+        border-radius: 8px;
+      }
+
+      .lightbox-info {
+        margin-top: 1rem;
+        padding: 0 10px;
+
+        h3 {
+          font-size: 1.4rem;
+        }
+      }
+
+      .nav-btn {
+        width: 50px;
+        height: 50px;
+
+        &.prev {
+          left: -70px;
+        }
+
+        &.next {
+          right: -70px;
+        }
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .close-btn {
+        top: -50px;
+        width: 45px;
+        height: 45px;
+
+        svg {
+          width: 24px;
+          height: 24px;
         }
       }
     }
